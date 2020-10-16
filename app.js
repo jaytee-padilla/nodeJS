@@ -13,7 +13,7 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 
 // the order of the routes matter
-app.use(adminRoutes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 // if none of the other routes above are found/executed, this middleware will run
