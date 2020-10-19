@@ -1,8 +1,8 @@
-const http = require('http');
+const path = require('path');
 const express = require('express');
 
 // routes
-const adminRoutes = require('./routes/admin');
+const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 // stores express framework features in the 'app' variable
@@ -13,12 +13,12 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 
 // the order of the routes matter
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 // if none of the other routes above are found/executed, this middleware will run
 app.use((req, res, next) => {
-  res.status(404).send('<h1>Page not found</h1>');
+  res.sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
 app.listen(3000, () => {
