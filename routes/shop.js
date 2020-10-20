@@ -5,10 +5,16 @@ const router = express.Router();
 const adminData = require('./admin');
 
 router.get('/', (req, res, next) => {
-  console.log(adminData.products);
-  // __dirname holds the absolute path on the computer's operating system to this project's folder
-  // the .join() builds the filepath and it works for multiple Operating Systems
-  res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'));
+  const products = adminData.products;
+
+  res.render('shop', {
+    products: products,
+    pageTitle: 'Shop',
+    path: '/',
+    hasProducts: products.length > 0,
+    activeShop: true,
+    productCSS: true
+  });
 });
 
 module.exports = router;
