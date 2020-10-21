@@ -2,9 +2,11 @@ const path = require('path');
 const express = require('express');
 
 // routes
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const { render } = require('ejs');
+
+// controllers
+const errorsController = require('./controllers/errors');
 
 // stores express framework features in the 'app' variable
 const app = express();
@@ -15,13 +17,11 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 
 // the order of the routes matter
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 // if none of the other routes above are found/executed, this middleware will run
-app.use((req, res, next) => {
-  res.status(404).render('404', {pageTitle: 'Page Not Found'});
-});
+app.use(errorsController.get404Page);
 
 app.listen(3000, () => {
   console.log('\nServer is listening at port 3000\n');
