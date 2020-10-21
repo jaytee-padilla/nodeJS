@@ -20,14 +20,16 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fetchAll();
-
-  res.render('shop', {
-    products: products,
-    pageTitle: 'Shop',
-    path: '/',
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true
+  // using a callback function to fetch all products to fix async-related issues
+  // *** will more than likely change this functionality to use promises in near future ***
+  Product.fetchAll(products => {
+    res.render('shop', {
+      products: products,
+      pageTitle: 'Shop',
+      path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
+    });
   });
 };
