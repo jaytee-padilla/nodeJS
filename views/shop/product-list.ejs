@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title><%= pageTitle %></title>
-    <!-- <link rel="stylesheet" href="/css/main.css" /> -->
-    <!-- <link rel="stylesheet" href="/css/product.css" /> -->
   </head>
 
   <body>
-    <header>
-      <nav>
-        <ul>
-          <li><a class="active" href="/">Shop</a></li>
-          <li><a href="/admin/add-product">Add Product</a></li>
-        </ul>
-      </nav>
-    </header>
+    <%- include('../_includes/navigation.ejs') %>
 
     <main>
       <% if (products.length > 0) { %>
