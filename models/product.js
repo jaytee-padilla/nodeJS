@@ -18,8 +18,11 @@ const getProductsFromFile = (cb) => {
 };
 
 module.exports = class Product {
-  constructor(title) {
-    this.title = title;
+  constructor(title, imageURL, price, description) {
+    this.title = title,
+    this.imageURL = imageURL,
+    this.price = price,
+    this.description = description
   }
 
   save() {
@@ -33,7 +36,7 @@ module.exports = class Product {
     });
   }
 
-  // 'static' is built into javscript
+  // 'static' is built into javascript
   // it allows the fetchAll() method to be directly called on the 'Product' class itself and NOT on an instantiated object
   static fetchAll(cb) {
     getProductsFromFile(cb);
