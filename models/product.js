@@ -26,6 +26,8 @@ module.exports = class Product {
   }
 
   save() {
+		this.id = Math.random().toString(); // dummy value, will implement id generating package
+
     getProductsFromFile((products) => {
       // 'this' will refer to the object created by this class
       products.push(this);
@@ -40,5 +42,12 @@ module.exports = class Product {
   // it allows the fetchAll() method to be directly called on the 'Product' class itself and NOT on an instantiated object
   static fetchAll(cb) {
     getProductsFromFile(cb);
-  }
+	}
+	
+	static findById(id, cb) {
+		getProductsFromFile(products => {
+			const product = products.find(p => p.id === id);
+			cb(product);
+		});
+	}
 };
