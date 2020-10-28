@@ -3,6 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// models
+const Cart = require('./cart');
+
 // get path to products.json file inside data folder
 const p = path.join(path.dirname(require.main.filename), 'data', 'products.json');
 
@@ -24,7 +27,7 @@ module.exports = class Product {
 		this.imageURL = imageURL,
 		this.price = price,
 		this.description = description
-	}
+	};
 
 	save() {
 		getProductsFromFile((products) => {
@@ -49,18 +52,32 @@ module.exports = class Product {
 				});
 			}
 		});
-	}
+	};
+
+	static deleteById(id) {
+		getProductsFromFile(products => {
+			const product = products.find(prod => prod.id === id);
+			const updatedProducts = products.filter(prod => prod.id !== id);
+
+			fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+				if (!err) {
+					// if no error, also delete the item from any users' carts
+					Cart.deleteProduct(id, product.price);
+				}
+			});
+		});
+	};
 
 	// 'static' is built into javascript
 	// it allows the fetchAll() method to be directly called on the 'Product' class itself and NOT on an instantiated object
 	static fetchAll(cb) {
 		getProductsFromFile(cb);
-	}
+	};
 
 	static findById(id, cb) {
 		getProductsFromFile(products => {
 			const product = products.find(p => p.id === id);
 			cb(product);
 		});
-	}
+	};
 };
